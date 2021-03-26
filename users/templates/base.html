@@ -1,0 +1,11 @@
+{% load bootstrap4 %}
+{% if user.is_authenticated %}
+
+<a href="{% url 'log' %}">Выйти</a>
+<!-- <a href="{% url 'users:log' %}">Личный кабинет</a> -->
+ {% else %}
+      <a href="{% url 'register' %}">Регистрация</a>
+      <a href="{% url 'password_reset' %}">Забыл пароль </a>
+     <a href="{% url 'login' %}">Войти</a>    {% endif %}
+{% block content %}
+{% endblock content %}

@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<form method="post" action="{% url 'register' %}">
+  {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <div class="g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
+    <button type='submit'> Зарегистрироваться </button>
+    <input type="hidden" name="next"
+    value="{% url 'index' %}" />
+</form>
+{% endblock %}
