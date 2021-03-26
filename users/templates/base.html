@@ -21,7 +21,6 @@ shrink-to-fit=no">
  <span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse" id="navbarCollapse">
 
-
     {% if user.is_authenticated %}
     <ul class="navbar-nav mr-auto">
     <li class="nav-item">
@@ -48,6 +47,9 @@ shrink-to-fit=no">
 </ul>
 {% endif %}
 </div>
+{% if conf == False %}
+<p>You need to register you email!</p>
+{% endif %}
 </nav>
 
 <main role="main" class="container">

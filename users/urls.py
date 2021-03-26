@@ -12,5 +12,7 @@ urlpatterns = [
     path('panel',views.panel,name='panel'),
     path('delete',views.delete,name='delete'),
     path('change/<username>/',views.change,name='change'),
+    path('verification/', include('verify_email.urls')),
+    path('confirm',views.confirm,name='confirm'),
     url(r'^person/$',views.data,name='person'),
     ]

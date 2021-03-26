@@ -4,17 +4,21 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .forms import RegForm,EditUser
-from .models import Tokens
+from .models import Tokens,Confirmation
 from django.contrib.auth.models import User
 from navbar.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from g_recaptcha.validate_recaptcha import validate_captcha
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from uuid import uuid4
 #REST_FRAMEWORK
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Create your views here.
 user=get_user_model()
+
 def index(request):
     return render(request,"base.html")
 
@@ -26,7 +30,7 @@ def forgotpass(request):
     form=PasswordResetForm()
     context = {'form': form,}
     return render(request, "forgot.html",context)
-@validate_captcha
+#@validate_captcha
 def NewUser(request):
 
     if request.method != 'POST':
@@ -34,17 +38,39 @@ def NewUser(request):
     else:
         form = RegForm(data=request.POST)
         if form.is_valid():
+
+            subject = 'Subject'
+
+
+            recepient=form.cleaned_data.get("email")
+            html_message = render_to_string('confirmaton.html', {'email':recepient,'domain':'localhost:8000'})
+            message = strip_tags(html_message)
+            #ail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+            send_mail(subject,message, EMAIL_HOST_USER, [recepient], fail_silently = False,html_message=html_message)
             new_user = form.save()
             login(request, new_user)
+            con=Confirmation.objects.create(user=new_user)
+            con.save()
             return redirect('index')
     context = {'form': form,
     'GOOGLE_RECAPTCHA_SITE_KEY': settings.GOOGLE_RECAPTCHA_SITE_KEY,}
     return render(request, "register.html",context)
+@login_required
+def confirm(request):
+    try:
+
+        conf.confirm=True
+        conf.save()
+        return render(request,"confirm_done.html")
+    except:
+        return redirect('login')
 def logout_view(request):
     logout(request)
     return redirect('index')
 @login_required
 def panel(request):
+    conf=Confirmation.objects.get(user=request.user)
+
     if request.method =='POST':
         token= uuid4()
         try:
@@ -56,6 +82,7 @@ def panel(request):
         context={
         'token':tok
         }
+        context['conf']=conf.confirma
         return render(request,"panel.html",context)
     else:
         try:
@@ -70,9 +97,11 @@ def panel(request):
                 for i in user.objects.all():
                     us.append(str(i.username))
                 context['users']=us
+            context['conf']=conf.confirm
             return render(request,"panel.html",context)
         except:
-            return render(request,"panel.html")
+            context['conf']=conf.confirma
+            return render(request,"panel.html",context)
 def delete(request):
     if request.user.is_staff ==True:
         us=user.objects.get(username=request.POST['user'])
