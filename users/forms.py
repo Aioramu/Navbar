@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext, ugettext_lazy as _
-class UploadFileForm(forms.Form):
-    image = forms.ImageField()
+
 class RegForm(forms.ModelForm):
     error_messages = {
             'password_mismatch': _("The two password fields didn't match."),
@@ -32,3 +31,8 @@ class RegForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+class EditUser(forms.Form):
+    username=forms.CharField(required=False)
+    email=forms.EmailField(required=False)
+    password1 = forms.CharField(label=_("Password"),
+        widget=forms.PasswordInput,required=False)

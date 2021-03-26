@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+You change {{username}}
+
+<form method="post" action="{% url 'change' username %}">
+  {% csrf_token %}
+
+    {{ form.as_p }}
+
+
+    <button type='submit' class="btn btn-primary"> Изменить </button>
+    <input type="hidden" name="next"
+    value="{% url 'index' %}" />
+</form>
+{% endblock %}

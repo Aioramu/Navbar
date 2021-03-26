@@ -4,6 +4,6 @@
 - [x] registration with capcha
 - [x] password reset
 - [ ] Email confirm
-- [ ] Panel with secret key
-- [ ] admin users view
+- [x] Panel with secret key
+- [x] admin users view
 - [ ] admin API history
