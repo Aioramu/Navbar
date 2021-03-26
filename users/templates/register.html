@@ -11,7 +11,7 @@
     {{ form.as_p }}
 
     <div class="g-recaptcha" data-sitekey="{{ GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
-    <button type='submit'> Зарегистрироваться </button>
+    <button type='submit' class="btn btn-primary"> Зарегистрироваться </button>
     <input type="hidden" name="next"
     value="{% url 'index' %}" />
 </form>
