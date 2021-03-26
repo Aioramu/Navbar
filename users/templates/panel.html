@@ -19,16 +19,19 @@
 </form>
 {% endif %}
 <div>
-
+<ul>
 {% for i in users %}
+  <li>
   {{i}} <a href="{% url 'change' i %}">Изменить</a>
+  {% if i != 'admin' %}
   <form method="post" action="{% url 'delete' %}">
     {% csrf_token %}
     <input type="hidden" name="user" value={{i}} />
     <button type='submit' class="btn btn-primary" > Удалить </button>
     </form>
-
+  {% endif %}
+  </li>
 {% endfor %}
-
+</ul>
 </div>
 {% endblock %}
