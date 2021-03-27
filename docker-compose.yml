@@ -15,6 +15,7 @@ services:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+      - ./docker/postgres/data/data/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
     ports:
       - "8000:8000"
     depends_on:

@@ -1,6 +1,6 @@
-
 Django>=3.1,<4.0
 psycopg2-binary==2.8.6
+psycopg2
 django-bootstrap4
 django-g-recaptcha
 djangorestframework
@@ -8,3 +8,5 @@ django-cors-headers
 requests
 Django-Verify-Email
 notifier
+
+
